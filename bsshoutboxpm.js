@@ -239,6 +239,7 @@ function setwid(){
 	}
 }
 function pushtoSB(msg){
+	new Audio("https://notificationsounds.com/sound-effects/sucked-into-the-dark-side-401"+"/download/mp3").play();
 	var index=bar.menus.f(msg.user,true,".username");
 	if(index===-1){
 		createMenu(msg.user,function(a){
