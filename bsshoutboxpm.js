@@ -5,7 +5,9 @@
 // @description  try to take over the world!
 // @author       You
 // @match        https://bs.to/home*
-// @grant        none
+// @match        https://bs.to/messages*
+// @grant       GM_getValue
+// @grant       GM_setValue
 // donationsURL paypal.me/JonathanHeindl :3
 // ==/UserScript==
 var l = {
@@ -24,6 +26,15 @@ var l = {
 var bar;
 (function() {
 	'use strict';
+	if(location.href.indexOf("bs.to/messages")>-1){
+		var li=document.getElementsByTagName("tbody")[0].children;
+		for(var i=li.length-1;i>-1;i--){
+			if(li[i].children[1].children[0].innerText==="shoutboxmessage"){
+				li[i].remove();
+			}
+		}
+		return;
+	}
 	function set(obj){
 		obj.children[0].onmouseenter=function(a){
 			if(a.target.ref===undefined){
@@ -56,19 +67,26 @@ var bar;
 
 
 		};
+		obj.onmouseleave=function(a){
+			setTimeout(function(a){
+				if(a.target.children[0].ref){
+					a.target.children[0].ref.remove();
+				}
+			},1,a);
+		};
 	}
 	if (!Array.prototype.f) {
 		Object.defineProperty(Array.prototype, "remI", {
-                enumerable: false,
-                value: function (index) {
-                    for (var i = 0; i < this.length; i++) {
-                        if (i > index) {
-                            this[i - 1] = this[i];
-                        }
-                    }
-                    this.length--;
-                }
-            });
+			enumerable: false,
+			value: function (index) {
+				for (var i = 0; i < this.length; i++) {
+					if (i > index) {
+						this[i - 1] = this[i];
+					}
+				}
+				this.length--;
+			}
+		});
 		Object.defineProperty(Array.prototype, "f", {
 			enumerable: false,
 			value: function findArray(f, equal = false, path = "", first = true) {
@@ -121,8 +139,19 @@ var bar;
 				}
 				msgobj.time=lines[5].split("<time>")[1].split("</time>")[0];
 				msgobj.timestamp=msgobj.time.split(" ")[1].split(":")[1]-0+msgobj.time.split(" ")[1].split(":")[0]*60+msgobj.time.split(" ")[0].split(".")[0]*60*24+msgobj.time.split(" ")[0].split(".")[1]*60*24*40+msgobj.time.split(" ")[0].split(".")[2]*60*24*35*12;
+
+
 				if(msgobj.timestamp>l.g("lastpm",0)){
-					pushtoSB(msgobj);
+					var link=lines[2].split("href=\"")[1].split("\">")[0];
+					var iF = document.createElement('iframe');
+					document.body.appendChild(iF);
+					iF.frameBorder = "0";
+					iF.src = "https://bs.to/"+link;
+					iFrameReady(iF, function(a,obj){
+						obj.text=a.contentDocument.getElementsByClassName("message-read")[0].children[2].innerText;
+						pushtoSB(obj);
+						a.remove();
+					}, false,msgobj);
 				}
 				if(i===2){
 					l.s("lastpm",msgobj.timestamp);	
@@ -152,19 +181,37 @@ var bar;
 			}
 		}
 	});
-	for(var i in main.ref.children){
-		var obj=main.ref.children[i];
+	console.log("set sbListener");
+	for(var k in main.ref.children){
+		var obj=main.ref.children[k];
 		if(obj.localName==="dt"){
-			for(var i in bar.menus){
-				if(bar.menus[i].username===obj.children[0].innerText||obj.children[0].innerText===document.getElementById("navigation").children[0].childNodes[1].innerText){
-					return;
+			for(var j in bar.menus){
+				if(bar.menus[j].username===obj.children[0].innerText||obj.children[0].innerText===document.getElementById("navigation").children[0].childNodes[1].innerText){
 				}else{
 					set(obj);
 				}
 			}
 		}
 	}
-
+	console.log("set pmbutton");
+	/*var fr=document.createElement("button");
+	fr.innerText="friends";
+	fr.onclick=function(b){
+		var friends =l.g("bs.friendlist",new Array(0));
+		if(friends.length===0){
+		   	return;
+		}
+		for(var i in friends){
+			debugger;
+		}
+		
+		alert("not done yet");
+		debugger;
+	};
+	fr.style.position="absolute";
+	fr.style.top=bar.offsetTop+3+"px";
+	fr.style.left=bar.offsetWidth-55+"px";
+	bar.appendChild(fr);*/
 
 	var rem=document.createElement("button");
 	rem.innerText="X";
@@ -196,10 +243,13 @@ setTimeout(function(){
 				iFrameReady(i, function(a,b){
 					var cont=a.contentDocument.getElementsByClassName("messages")[0].children[1].children[0].children;
 					cont[1].children[0].value=bar.menus[bar.index].username;
-					cont[2].children[0].value="SBMESSAGE:"+document.getElementById("sbMsg").value;
-					cont[3].children[0].value="shoutboxmessage";
+					cont[2].children[0].value="shoutboxmessage";
+					cont[3].children[0].value=document.getElementById("sbMsg").value;
 					cont[4].click();
 					document.getElementById("sbMsg").value="";
+					setTimeout(function(a){
+						a.remove();
+					},1000,a);
 				}, false);
 			}else{
 				return this.checkEnterc(a,b,c);	
@@ -277,7 +327,7 @@ function createMenu(text,onclick){
 		head.append(time);
 
 		var txt =document.createElement("dd");
-		txt.innerText=msg.text.replace("SBMESSAGE:","");
+		txt.innerText=msg.text.replace("SB:","");
 		this.ref.insertBefore(txt,this.ref.children[0]);
 		this.ref.insertBefore(head,this.ref.children[0]);
 		var dt=new Date().valueOf();
@@ -314,7 +364,7 @@ function createMenu(text,onclick){
 	setwid();
 	return menubutton;
 }
-function iFrameReady(iFrame, fn, hiding) {//calls fn when iFrame DOMCONTENT LOADED
+function iFrameReady(iFrame, fn, hiding,object) {//calls fn when iFrame DOMCONTENT LOADED
 	var timer;
 	var fired = false;
 	function ready() {
@@ -324,7 +374,7 @@ function iFrameReady(iFrame, fn, hiding) {//calls fn when iFrame DOMCONTENT LOAD
 			iFrame.hidden = hiding;
 			if (fn !== null && fn !== undefined) {
 				try {
-					fn.call(this, iFrame);
+					fn.call(this, iFrame,object);
 				} catch (err) {
 					sc.D.e(err);
 				}
