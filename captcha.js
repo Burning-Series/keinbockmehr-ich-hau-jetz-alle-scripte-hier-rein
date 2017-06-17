@@ -40,7 +40,7 @@ if(location.href.indexOf("www.google.com/recaptcha/api2")>-1){
 				img.onload = function (event) {
 					event.target.ctx.drawImage(event.target, 0, 0);
 					event.target.style.display = 'none';
-					var saved= sc.G.g("googlecaptchatemp", []);
+					var saved= sc.G.g("googlecaptchafin", []);
 					for (var i = 0; i < event.target.length; i++) {
 						for (var j = 0; j < event.target.length; j++) {
 							var width = 20;
@@ -68,8 +68,6 @@ if(location.href.indexOf("www.google.com/recaptcha/api2")>-1){
 									sc.G.p("googlecaptchatemp", {data: ev.target.data, tag: obj.tag}, []);
 								};
 							}
-
-
 						}
 					}
 
