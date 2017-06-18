@@ -794,7 +794,6 @@ if(location.href.indexOf("www.google.com/recaptcha/api2")>-1){
 							obj.data = data.toString();
 							var found=false;
 							for(var k=0;k<saved.length;k++){
-								debugger;
 								if(obj.data===saved[k].data&&obj.tag===saved[k].tag){
 									found=true;
 									new Notification("found match :o");
