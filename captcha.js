@@ -794,7 +794,8 @@ if(location.href.indexOf("www.google.com/recaptcha/api2")>-1){
 							obj.data = data;
 							var found=false;
 							for(var k=0;k<saved.length;k++){
-								if(obj.data.toString()===saved[k].data.toString()&&obj.tag===saved[k].tag){
+								debugger;
+								if(obj.data.toString()===saved[k].data&&obj.tag===saved[k].tag){
 									found=true;
 									new Notification("found match :o");
 									obj.click();
@@ -802,7 +803,7 @@ if(location.href.indexOf("www.google.com/recaptcha/api2")>-1){
 							}
 							if(!found){
 								obj.onclick = function (ev) {
-									sc.G.p("googlecaptchatemp", {data: ev.target.data, tag: obj.tag}, []);
+									sc.G.p("googlecaptchatemp", {data: ev.target.data.toString(), tag: obj.tag}, []);
 								};
 							}
 						}
