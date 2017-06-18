@@ -8,10 +8,10 @@
 // @match        http://*/*
 // @match        about:*
 // @match        https://*/*
-// @grant        none
+// @grant       GM_getValue
+// @grant       GM_setValue
 // donationsURL paypal.me/JonathanHeindl :3
 // ==/UserScript==
-
 
 //if the captcha is reloading the images at click fail it (im not sure if the image data is set up in that case)
 var sc = {
@@ -590,7 +590,7 @@ var sc = {
             // form += ar[0];
             //for (var z = 1; z < ar.length; z++) {
             //    form += "&series%5B%5D=" + ar[z];
-            //}
+            //
             //params.append("",form);
             //var params = form;
             http.open("POST", url, true);
@@ -751,6 +751,7 @@ var sc = {
     }
 };
 sc.g.W().sc = sc;
+
 if(location.href.indexOf("www.google.com/recaptcha/api2")>-1){
 	sc.D.sT(function () {
 		var checkbox = sc.g.C("recaptcha-checkbox-checkmark");
@@ -776,7 +777,7 @@ if(location.href.indexOf("www.google.com/recaptcha/api2")>-1){
 				img.onload = function (event) {
 					event.target.ctx.drawImage(event.target, 0, 0);
 					event.target.style.display = 'none';
-					var saved= sc.G.g("googlecaptchafinnw", []);
+					var saved= sc.G.g("googlecaptchafin", []);
 					for (var i = 0; i < event.target.length; i++) {
 						for (var j = 0; j < event.target.length; j++) {
 							var width = 20;
