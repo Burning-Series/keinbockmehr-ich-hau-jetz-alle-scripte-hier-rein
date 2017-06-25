@@ -84,13 +84,14 @@ if (!Array.prototype.remI) {
 				var field=document.createElement("li12");
 				field.style.width="200px";
 				var height=onlineNames.length*20+20;
-				var top=sB.offsetTop-(height);
+				var top=sB.offsetTop-(height)-5;
 				field.style.position="absolute";
 				field.style.top=top+"px";
 				field.style.height=height+"px";
 				field.style.left=sB.offsetLeft+"px";
 				field.style.background="white";
-				field.style.border="black 1px solid";
+				field.style.border="rgb(100, 160, 255) 1.5px solid";
+				field.style.borderRadius= "4px";
 				sB.fie=field;
 				for(var j=0;j<onlineNames.length;j++){
 					var username=document.createElement("el");
@@ -130,7 +131,7 @@ if (!Array.prototype.remI) {
 				}else{
 					index(true);
 				}
-				sB.fie.children[sB.index].style.backgroundColor="blue";
+				sB.fie.children[sB.index].style.backgroundColor="rgb(100, 160, 255)";
 				sB.value=sB.value.replace(sB.value.split("@")[1].split(" ")[0],sB.onl[sB.index]);
 			}else if(a.keyCode===9){
 				if(sB.onl.length===1){
