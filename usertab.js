@@ -148,7 +148,7 @@ if (!Array.prototype.remI) {
 					sB.selectionEnd=sB.value.length;
 				},1,sB);
 			}
-
+			return Shoutbox.checkEnter(a);
 		};
 	},1000);
 	// Your code here...
