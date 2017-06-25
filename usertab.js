@@ -65,7 +65,7 @@ if (!Array.prototype.remI) {
 			}
 			for(var t=0;t<usercontainer.length;t++){
 				if(sB.value.length>2){
-					if(sB.value.indexOf("@")>-1 && usercontainer[t].children[0].textContent.toLowerCase().indexOf(sB.value.split("@")[1].toLowerCase())>-1){
+					if(sB.value.indexOf("@")>-1 && usercontainer[t].children[0].textContent.toLowerCase().indexOf(sB.value.split("@")[1].toLowerCase())===0){
 						onlineNames.push(usercontainer[t].children[0].textContent);
 					}
 				}
