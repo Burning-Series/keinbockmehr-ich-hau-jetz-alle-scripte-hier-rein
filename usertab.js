@@ -10,6 +10,46 @@
 // donationsURL paypal.me/JonathanHeindl :3
 // ==/UserScript==
 
+if (!Array.prototype.remI) {
+	var ars = ["Array", "HTMLCollection"];
+	for (var i = 0; i < ars.length; i++) {
+		Object.defineProperty(eval(ars[i]).prototype, "remI", {
+			enumerable: false,
+			value: function (index) {
+				for (var i = 0; i < this.length; i++) {
+					if (i > index) {
+						this[i - 1] = this[i];
+					}
+				}
+				this.length--;
+			}
+		});
+		Object.defineProperty(eval(ars[i]).prototype, "f", {
+			enumerable: false,
+			value: function findArray(f, equal = false, path = "", first = true) {
+				var index = -1;
+				for (var i = 0; i < this.length; i++) {
+					if (equal) {
+						if (f === eval("this[i]" + path)) {
+							index = i;
+							if (first) {
+								return index;
+							}
+						}
+					} else {
+						if (f.toString().indexOf(eval("this[i]" + path)) > -1) {
+							index = i;
+							if (first) {
+								return index;
+							}
+						}
+					}
+				}
+				return index;
+			}
+		});
+	}
+}
 (function() {
 	'use strict';
 	setTimeout(function(){
@@ -29,6 +69,14 @@
 						onlineNames.push(usercontainer[t].children[0].textContent);
 					}
 				}
+			}
+			var active=$(sbPosts)[0].children;
+			for(var t=0;t<active.length;t+=2){
+				if(onlineNames.f(active[t].children[0].textContent)>-1){
+					onlineNames.remI(onlineNames.f(active[t].children[0].textContent,true));
+					onlineNames.push(active[t].children[0].textContent);
+				}
+
 			}
 			sB.onl=onlineNames;
 			sB.index=0;
@@ -84,8 +132,20 @@
 				}
 				sB.fie.children[sB.index].style.backgroundColor="blue";
 				sB.value=sB.value.replace(sB.value.split("@")[1].split(" ")[0],sB.onl[sB.index]);
-			}else{
-
+			}else if(a.keyCode===9){
+				for(var i=par.children.length-1;i>-1;i--){
+					if(par.children[i].localName==="li12"){
+						par.children[i].remove();
+					}
+				}
+				sB.focus();
+				sB.selectionStart=sB.value.length;
+				sB.selectionEnd=sB.value.length;
+				setTimeout(function(sB){
+					sB.focus();
+					sB.selectionStart=sB.value.length;
+					sB.selectionEnd=sB.value.length;
+				},1,sB);
 			}
 
 		};
