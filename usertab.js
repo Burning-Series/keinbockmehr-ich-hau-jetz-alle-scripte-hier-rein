@@ -133,14 +133,14 @@ if (!Array.prototype.remI) {
 				sB.fie.children[sB.index].style.backgroundColor="blue";
 				sB.value=sB.value.replace(sB.value.split("@")[1].split(" ")[0],sB.onl[sB.index]);
 			}else if(a.keyCode===9){
+				if(sB.onl.length===1){
+					sB.value=sB.value.replace(sB.value.split("@")[1].split(" ")[0],sB.onl[0]);
+				}
 				for(var i=par.children.length-1;i>-1;i--){
 					if(par.children[i].localName==="li12"){
 						par.children[i].remove();
 					}
 				}
-				sB.focus();
-				sB.selectionStart=sB.value.length;
-				sB.selectionEnd=sB.value.length;
 				setTimeout(function(sB){
 					sB.focus();
 					sB.selectionStart=sB.value.length;
