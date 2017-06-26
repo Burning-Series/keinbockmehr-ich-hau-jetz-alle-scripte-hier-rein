@@ -9,6 +9,10 @@
 // @grant        none
 // donationsURL paypal.me/JonathanHeindl :3
 // ==/UserScript==
+
+//TODO:format =["username1","username2",...];
+var customuserarray=[];
+
 var username="";
 try{
 	username=document.getElementById("navigation").children[0].childNodes[1].innerText;
@@ -159,8 +163,6 @@ if (!Array.prototype.remI) {
 	},1000);
 
 	$(sbPosts)[0].addEventListener("DOMNodeInserted",function(a,b){
-		//TODO:format =["username1","username2",...];
-		var customuserarray=[];
 		if(a.target.localName==="dd"){
 			var text=a.target.textContent;
 			var indx=text.indexOf(username);
