@@ -159,9 +159,19 @@ if (!Array.prototype.remI) {
 	},1000);
 
 	$(sbPosts)[0].addEventListener("DOMNodeInserted",function(a,b){
+		//TODO:format =["username1","username2",...];
+		var customuserarray=[];
 		if(a.target.localName==="dd"){
-			if(a.target.textContent.indexOf(username)>-1){
-				a.target.style.backgroundColor="orange";
+			var text=a.target.textContent;
+			var indx=text.indexOf(username);
+			if(indx>-1){
+				a.target.innerHTML=text.replace("@"+username,"<mark>"+"@"+username+"</mark>");
+			}
+			for(var i=0;i<customuserarray.length;i++){
+				var name =customuserarray[i];
+				if(text.indexOf(name)>-1){
+					a.target.innerHTML=text.replace("@"+name,"<mark>"+"@"+name+"</mark>");
+				}
 			}
 
 		}
