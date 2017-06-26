@@ -10,8 +10,8 @@
 // donationsURL paypal.me/JonathanHeindl :3
 // ==/UserScript==
 
-//TODO:format =["username1","username2",...];
-var customuserarray=[];
+//   format =["username1","username2",...];
+var customuserarray=["<3"];
 
 var username="";
 try{
@@ -171,8 +171,10 @@ if (!Array.prototype.remI) {
 			}
 			for(var i=0;i<customuserarray.length;i++){
 				var name =customuserarray[i];
-				if(text.indexOf(name)>-1){
+				if(text.indexOf("@"+name)>-1){
 					a.target.innerHTML=text.replace("@"+name,"<mark>"+"@"+name+"</mark>");
+				}else if(text.indexOf(name)>-1){
+					a.target.innerHTML=text.replace(name,"<mark>"+name+"</mark>");
 				}
 			}
 
