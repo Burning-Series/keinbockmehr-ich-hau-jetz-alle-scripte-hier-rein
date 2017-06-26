@@ -9,7 +9,7 @@
 // @grant        none
 // donationsURL paypal.me/JonathanHeindl :3
 // ==/UserScript==
-
+var username="";
 if (!Array.prototype.remI) {
 	var ars = ["Array", "HTMLCollection"];
 	for (var i = 0; i < ars.length; i++) {
@@ -53,6 +53,9 @@ if (!Array.prototype.remI) {
 (function() {
 	'use strict';
 	setTimeout(function(){
+		try{
+			username=document.getElementById("navigation").children[0].childNodes[1].innerText;
+		}catch(err){}
 		var sB=$(sbMsg)[0];
 		var par=sB.parentElement;
 		sB.oninput=function(a,b,c){
@@ -151,5 +154,13 @@ if (!Array.prototype.remI) {
 			return Shoutbox.checkEnter(a);
 		};
 	},1000);
+
+	$(sbPosts)[0].addEventListener("DOMNodeInserted",function(a,b){
+		if(a.target.localName==="dd"){
+			if(a.target.textContent.indexOf(username)>-1){
+				a.target.style.backgroundColor="orange";
+			}
+		}
+	});
 	// Your code here...
 })();
