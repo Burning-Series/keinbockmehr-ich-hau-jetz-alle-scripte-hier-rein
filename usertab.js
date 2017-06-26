@@ -10,6 +10,9 @@
 // donationsURL paypal.me/JonathanHeindl :3
 // ==/UserScript==
 var username="";
+try{
+	username=document.getElementById("navigation").children[0].childNodes[1].innerText;
+}catch(err){}
 if (!Array.prototype.remI) {
 	var ars = ["Array", "HTMLCollection"];
 	for (var i = 0; i < ars.length; i++) {
@@ -160,6 +163,7 @@ if (!Array.prototype.remI) {
 			if(a.target.textContent.indexOf(username)>-1){
 				a.target.style.backgroundColor="orange";
 			}
+
 		}
 	});
 	// Your code here...
