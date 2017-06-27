@@ -88,7 +88,7 @@ if (!Array.prototype.remI) {
 					onlineNames.remI(onlineNames.f(active[t].children[0].textContent,true));
 					onlineNames.push(active[t].children[0].textContent);
 				}else{
-					if(sB.value.indexOf("@")>-1 && active[t].children[0].textContent.toLowerCase().indexOf(sB.value.split("@")[1].toLowerCase())===0){
+					if(sB.value.length>2&&sB.value.indexOf("@")>-1 && active[t].children[0].textContent.toLowerCase().indexOf(sB.value.split("@")[1].toLowerCase())===0){
 						onlineNames.push(active[t].children[0].textContent);
 					}
 				}
@@ -167,7 +167,9 @@ if (!Array.prototype.remI) {
 					sB.selectionEnd=sB.value.length;
 				},1,sB);
 			}
-			return Shoutbox.checkEnter(a);
+			if(a.keyCode==13){
+				return Shoutbox.checkEnter(a);
+			}
 		};
 	},1000);
 
@@ -177,13 +179,14 @@ if (!Array.prototype.remI) {
 			var indx=text.indexOf(username);
 			if(indx>-1){
 				a.target.innerHTML=text.replace("@"+username,"<mark>"+"@"+username+"</mark>");
-			}
-			for(var i=0;i<customuserarray.length;i++){
-				var name =customuserarray[i];
-				if(text.indexOf("@"+name)>-1){
-					a.target.innerHTML=text.replace("@"+name,"<mark>"+"@"+name+"</mark>");
-				}else if(text.indexOf(name)>-1){
-					a.target.innerHTML=text.replace(name,"<mark>"+name+"</mark>");
+			}else{
+				for(var i=0;i<customuserarray.length;i++){
+					var name =customuserarray[i];
+					if(text.indexOf("@"+name)>-1){
+						a.target.innerHTML=text.replace("@"+name,"<mark>"+"@"+name+"</mark>");
+					}else if(text.indexOf(name)>-1){
+						a.target.innerHTML=text.replace(name,"<mark>"+name+"</mark>");
+					}
 				}
 			}
 
