@@ -11,12 +11,14 @@
 // ==/UserScript==
 
 //   format =["username1","username2",...];
-var customuserarray=["<3"];
+var customuserarray=[];
 
 var username="";
 try{
 	username=document.getElementById("navigation").children[0].childNodes[1].innerText;
-}catch(err){}
+}catch(err){
+	console.err(err);
+}
 if (!Array.prototype.remI) {
 	var ars = ["Array", "HTMLCollection"];
 	for (var i = 0; i < ars.length; i++) {
@@ -85,6 +87,10 @@ if (!Array.prototype.remI) {
 				if(onlineNames.f(active[t].children[0].textContent)>-1){
 					onlineNames.remI(onlineNames.f(active[t].children[0].textContent,true));
 					onlineNames.push(active[t].children[0].textContent);
+				}else{
+					if(sB.value.indexOf("@")>-1 && active[t].children[0].textContent.toLowerCase().indexOf(sB.value.split("@")[1].toLowerCase())===0){
+						onlineNames.push(active[t].children[0].textContent);
+					}
 				}
 
 			}
@@ -144,8 +150,11 @@ if (!Array.prototype.remI) {
 				sB.fie.children[sB.index].style.backgroundColor="rgb(100, 160, 255)";
 				sB.value=sB.value.replace(sB.value.split("@")[1].split(" ")[0],sB.onl[sB.index]+" ");
 			}else if(a.keyCode===9){
+				//tab
 				if(sB.onl.length===1){
 					sB.value=sB.value.replace(sB.value.split("@")[1].split(" ")[0],sB.onl[0]+" ");
+				}else{
+					sB.value=sB.value.replace(sB.value.split("@")[1].split(" ")[0],sB.onl[sB.onl.length-1]+" ");
 				}
 				for(var i=par.children.length-1;i>-1;i--){
 					if(par.children[i].localName==="li12"){
